@@ -13,7 +13,7 @@ import Login from "./components/Login/index";
 
 // Function Component
 function App() {
-  
+  const [users, setUsers] = useState("");   
   const [token, setToken] = useState("");   
 //   // State variables
 //   const [users, setUsers] = useState(() => {
@@ -66,6 +66,7 @@ const getMe = useCallback(async () => {
     });
 
     if (response.ok) {
+      setUsers(response.data);
       const data = await response.json();
       console.log(data); // Handle the user data from the response
     } else {
@@ -93,7 +94,7 @@ return (
     <Routes>
     <Route path ="/" element={<Home />}/>
     <Route path ="/login" element={<Login   />}/>
-    <Route path ="/create-account" element={<CreateAccount   />}/>
+    <Route path ="/create-account" element={<CreateAccount setToken={setToken} users={users} />}/>
     <Route path ="/withdraw" element={<Withdraw  />}/>
     <Route path ="/deposit" element={<Deposit />}/>   
     <Route path ="/all-data" element={<Alldata  />}/>
