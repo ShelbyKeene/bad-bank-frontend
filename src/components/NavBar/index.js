@@ -11,9 +11,11 @@ import Image from "react-bootstrap/Image";
 const Navbar = () => {
   const location = useLocation();
 
+
   const isRouteActive = (route) => {
     return location.pathname === route;
   };
+
 
   const renderHome = (props) => (
     <Tooltip id="button-tooltip" {...props}>
@@ -21,21 +23,33 @@ const Navbar = () => {
       Style!
     </Tooltip>
   );
+const renderLogin= (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Enter the Big Easy!{" "}
+    </Tooltip>
+  );
+
   const renderCreate = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       Unlock Your Financial Potential with Us: Open Your Path to Prosperity!{" "}
     </Tooltip>
   );
+
+
   const renderWithdrawl = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       Unlock Your Funds, Embrace Local Flavor and Style"
     </Tooltip>
   );
+
+
   const renderDeposit = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       "Secure Your Dreams, Deposit for Tomorrow"
     </Tooltip>
   );
+
+
   const renderAlldata = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       "Data-Driven Banking in the Big Easy: Uncover Opportunities, Make Informed
@@ -70,6 +84,24 @@ const Navbar = () => {
                   Home
                 </Link>
               </OverlayTrigger>
+
+                 {/* Login page */}
+                 <OverlayTrigger
+                placement="bottom"
+                delay={{ show: 250, hide: 400 }}
+                overlay={renderLogin}
+              >
+                <Link
+                  className={`nav-link ${
+                    isRouteActive("/login") ? "" : "active"
+                  }`}
+                  aria-current="page"
+                  to="/login"
+                >
+                  Login
+                </Link>
+              </OverlayTrigger>
+
 
               {/* Create acount page */}
               <OverlayTrigger

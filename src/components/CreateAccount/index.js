@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { v4 as uuidv4 } from "uuid";
 import IMG from "../Photos/Lobby.jpeg";
 import Image from "react-bootstrap/Image";
 
@@ -87,7 +86,7 @@ function CreateAccount({ users, setUsers }) {
       setErrorPasswordLength(true);
       return null;
     }
-    const newUser = { id: uuidv4(), name, email, password, confirmPassword };
+    const newUser = { name, email, password, confirmPassword };
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
     setShow(false);
