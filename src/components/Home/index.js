@@ -3,7 +3,12 @@ import Card from "react-bootstrap/Card";
 import HomePic from "../Photos/homePG.jpeg";
 import Image from "react-bootstrap/Image";
 import Logo from "../Photos/logoPIC.png";
+import { useLocation } from "react-router-dom";
 const Home = () => {
+  const location = useLocation();
+  const { successMessage } = location.state || {};
+
+
   return (
     <div style={{ position: "relative", height: "100vh" }}>
       <Image
@@ -11,7 +16,7 @@ const Home = () => {
         fluid
         style={{ height: "100%", width: "100%", objectFit: "cover" }}
       />
-
+      {successMessage && <p>{successMessage}</p>}
       <Card
         style={{
           width: "85%",

@@ -2,24 +2,20 @@ import React, { useState } from "react";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import Image from "react-bootstrap/Image";
-import { useNavigate } from "react-router-dom";
 
-function CreateUser({ setToken }) {
+function CreateUser({ setToken, navigate }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate();
-
   async function handleCreateUser() {
     setError(null);
     setStatus("Creating user...");
 
     try {
-      const response = await fetch("http://localhost:3000/account/create", {
+      const response = await fetch("https://backend-bank-850738bd4b85.herokuapp.com/account/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -72,8 +68,8 @@ function CreateUser({ setToken }) {
           <Button onClick={handleCreateUser}>Create User</Button>
         </Card.Body>
       </Card>
-      {status && <p>{status}</p>}
-      {error && <p>Error: {error}</p>}
+      {status && <Alert variant="success">{status}</Alert>}
+      {error && <Alert variant="danger">Error: {error}</Alert>}
     </div>
   );
 }

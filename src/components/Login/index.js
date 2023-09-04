@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 
-function Login() {
+function Login({ setToken,navigate }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:3000/account/login', {
+      const response = await fetch('https://backend-bank-850738bd4b85.herokuapp.com/account/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20,8 +21,11 @@ function Login() {
         
         // Save token to local storage
         localStorage.setItem('userToken', data.refreshToken);
-        // Redirect or perform other actions on successful login
-        setSuccess('Successfully logged in')
+        // Set token in parent component
+        setToken(data.refreshToken);
+        // Display success message
+        navigate("/");
+        setSuccess('Successfully logged in');
       } else {
         setError('Invalid credentials');
       }
