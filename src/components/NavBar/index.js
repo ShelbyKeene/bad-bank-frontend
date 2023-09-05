@@ -8,7 +8,10 @@ import Tooltip from "react-bootstrap/Tooltip";
 import Logo from "../Photos/logoPIC.png";
 import Image from "react-bootstrap/Image";
 
-const Navbar = ({ handleLogout, token }) => {
+const Navbar = ({ handleLogout, token, name, }) => {
+
+
+
   const location = useLocation();
 
   const isRouteActive = (route) => {
@@ -46,12 +49,12 @@ const Navbar = ({ handleLogout, token }) => {
     </Tooltip>
   );
 
-  const renderAlldata = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      "Data-Driven Banking in the Big Easy: Uncover Opportunities, Make Informed
-      Decisions!"
-    </Tooltip>
-  );
+  // const renderAlldata = (props) => (
+  //   <Tooltip id="button-tooltip" {...props}>
+  //     "Data-Driven Banking in the Big Easy: Uncover Opportunities, Make Informed
+  //     Decisions!"
+  //   </Tooltip>
+  // );
 
 
   return (
@@ -59,7 +62,8 @@ const Navbar = ({ handleLogout, token }) => {
       <NavbarBoostrap bg="dark" variant="dark" expand="lg">
         <Container fluid>
           <Image src={Logo} fluid style={{ height: "55px", width: "55px" }} />
-
+  {/* Display the username */}
+  <div className="username"></div>
           <NavbarBoostrap.Toggle aria-controls="navbarScroll" />
           <NavbarBoostrap.Collapse id="navbarScroll">
             <Nav
@@ -159,7 +163,7 @@ const Navbar = ({ handleLogout, token }) => {
               )}
 
               {/* All data page */}
-              {token && (
+              {/* {token && (
                 <OverlayTrigger
                   placement="bottom"
                   delay={{ show: 250, hide: 400 }}
@@ -175,7 +179,7 @@ const Navbar = ({ handleLogout, token }) => {
                     All Data
                   </Link>
                 </OverlayTrigger>
-              )}
+              )} */}
 
               {/* Logout */}
               {token && (

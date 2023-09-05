@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 function App() {
   const [users, setUsers] = useState("");   
   const [token, setToken] = useState("");   
+  const [name, setUsername] = useState(""); 
   const navigate = useNavigate();
   
   
@@ -40,7 +41,7 @@ const getMe = useCallback(async () => {
   }
 
   try {
-    const response = await fetch("https://backend-bank-850738bd4b85.herokuapp.com/account/me", {
+    const response = await fetch("http://localhost:3000/account/me", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -50,7 +51,7 @@ const getMe = useCallback(async () => {
     if (response.ok) {
       setUsers(response.data);
       const data = await response.json();
-      console.log(data); // Handle the user data from the response
+      setUsername(data.name);; // Handle the user data from the response
     } else {
       console.log("Failed to fetch user data");
     }
@@ -69,7 +70,7 @@ return (
      <div className="main-app-div">
 
     {/* Navbar outside route, it will stay consistent on all pages */}
-    <Navbar handleLogout={handleLogout} token={token} />
+    <Navbar handleLogout={handleLogout} token={token} name={name}/>
 
     {/* Main Routes, all routes between each component*/}
     <Routes>
@@ -89,7 +90,7 @@ return (
         <>
           <Route path="/withdraw" element={<Withdraw token={token} />} />
           <Route path="/deposit" element={<Deposit token={token} />} />
-          <Route path="/all-data" element={<Alldata token={token} />} />
+          <Route path="/all-data" element={<Alldata token={token} users={users}/>} />
         </>
       )}
     </Routes>

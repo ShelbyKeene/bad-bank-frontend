@@ -8,7 +8,7 @@ function Login({ setToken,navigate }) {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://backend-bank-850738bd4b85.herokuapp.com/account/login', {
+      const response = await fetch('http://localhost:3000/account/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
