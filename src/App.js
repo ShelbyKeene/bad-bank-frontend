@@ -24,45 +24,62 @@ function App() {
     setToken(""); // Clear the token
     setUsers(""); // Clear user data
     navigate("/");
+
     window.localStorage.removeItem("userToken"); // Remove token from local storage
+  
   };
 
 
 
 
-const getMe = useCallback(async () => {
-  const storedToken = window.localStorage.getItem('userToken');
+  const getMe = useCallback(async () => {
+    const storedToken = window.localStorage.getItem('userToken');
+    
+    if (!token) {
+      if (storedToken) {
+        setToken(storedToken);
+      }
+      return;
+    }
+    console.log("Testing 42");
+    try {
+      const response = await fetch("http://localhost:3000/me", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      console.log("Response status:", response.status); // Log the response status
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    
+      const contentType = response.headers.get("content-type");
+      console.log("Content-Type:", contentType); // Log the content type
+      
+      const data = await response.text(); // Read the response as text
+      console.log("Received response data:", data);
+      
+      // Try parsing the data as JSON
+      const jsonData = JSON.parse(data);
+      console.log("Received user data:", jsonData);
+      
+      setUsername(jsonData.name);
+      setUsers(jsonData);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+    
+  }, [token]);
   
-  if (!token) {
-    if (storedToken) {
-      setToken(storedToken);
-    }
-    return;
-  }
-
-  try {
-    const response = await fetch("http://localhost:3000/account/me", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.ok) {
-      setUsers(response.data);
-      const data = await response.json();
-      setUsername(data.name);; // Handle the user data from the response
-    } else {
-      console.log("Failed to fetch user data");
-    }
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-  }
-}, [token]);
+  
 
 useEffect(() => {
   getMe();
-}, [getMe]); // Add getMe to the dependency 
+}, [getMe, token]);
+ // Add getMe to the dependency 
 
 
 

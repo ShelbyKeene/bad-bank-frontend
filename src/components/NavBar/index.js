@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { Link, useLocation } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -8,9 +8,17 @@ import Tooltip from "react-bootstrap/Tooltip";
 import Logo from "../Photos/logoPIC.png";
 import Image from "react-bootstrap/Image";
 
-const Navbar = ({ handleLogout, token, name, }) => {
-
-
+const Navbar = ({ handleLogout, token, }) => {
+  const [userName, setUserName] = useState(null);
+ 
+  // Effect to load user's name from localStorage on component mount
+ useEffect(() => {
+  const storedUser = localStorage.getItem("user");
+  if (storedUser) {
+    const userData = JSON.parse(storedUser);
+    setUserName(userData.name); // Assuming 'name' is the property that stores the user's name
+  }
+}, []);
 
   const location = useLocation();
 
@@ -62,8 +70,12 @@ const Navbar = ({ handleLogout, token, name, }) => {
       <NavbarBoostrap bg="dark" variant="dark" expand="lg">
         <Container fluid>
           <Image src={Logo} fluid style={{ height: "55px", width: "55px" }} />
-  {/* Display the username */}
-  <div className="username"></div>
+          {token && userName && (
+            <div className="username" style={{ color: "white" }}>
+              Welcome, {userName}
+            </div>
+          )}
+
           <NavbarBoostrap.Toggle aria-controls="navbarScroll" />
           <NavbarBoostrap.Collapse id="navbarScroll">
             <Nav

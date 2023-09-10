@@ -21,6 +21,9 @@ function Login({ setToken,navigate }) {
         
         // Save token to local storage
         localStorage.setItem('userToken', data.refreshToken);
+        // Storing user data in local storage after successful login
+        localStorage.setItem('user', JSON.stringify(data.user));
+
         // Set token in parent component
         setToken(data.refreshToken);
         // Display success message
