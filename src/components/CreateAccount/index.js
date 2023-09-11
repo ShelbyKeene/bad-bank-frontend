@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import Image from "react-bootstrap/Image";
+
 
 
 function CreateUser({ setToken ,navigate }) {
