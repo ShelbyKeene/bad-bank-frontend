@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { Link, useLocation } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -8,7 +8,18 @@ import Tooltip from "react-bootstrap/Tooltip";
 import Logo from "../Photos/logoPIC.png";
 import Image from "react-bootstrap/Image";
 
-const Navbar = () => {
+const Navbar = ({ handleLogout, token, }) => {
+  const [userName, setUserName] = useState(null);
+ 
+  // Effect to load user's name from localStorage on component mount
+ useEffect(() => {
+  const storedUser = localStorage.getItem("user");
+  if (storedUser) {
+    const userData = JSON.parse(storedUser);
+    setUserName(userData.name); // Assuming 'name' is the property that stores the user's name
+  }
+}, []);
+
   const location = useLocation();
 
   const isRouteActive = (route) => {
@@ -21,33 +32,49 @@ const Navbar = () => {
       Style!
     </Tooltip>
   );
-  const renderCreate = (props) => (
+
+  const renderLogin = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-      Unlock Your Financial Potential with Us: Open Your Path to Prosperity!{" "}
+      Enter the Big Easy!
     </Tooltip>
   );
+
+  const renderCreate = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Unlock Your Financial Potential with Us: Open Your Path to Prosperity!
+    </Tooltip>
+  );
+
   const renderWithdrawl = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       Unlock Your Funds, Embrace Local Flavor and Style"
     </Tooltip>
   );
+
   const renderDeposit = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       "Secure Your Dreams, Deposit for Tomorrow"
     </Tooltip>
   );
-  const renderAlldata = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      "Data-Driven Banking in the Big Easy: Uncover Opportunities, Make Informed
-      Decisions!"
-    </Tooltip>
-  );
+
+  // const renderAlldata = (props) => (
+  //   <Tooltip id="button-tooltip" {...props}>
+  //     "Data-Driven Banking in the Big Easy: Uncover Opportunities, Make Informed
+  //     Decisions!"
+  //   </Tooltip>
+  // );
+
 
   return (
     <div>
       <NavbarBoostrap bg="dark" variant="dark" expand="lg">
         <Container fluid>
           <Image src={Logo} fluid style={{ height: "55px", width: "55px" }} />
+          {token && userName && (
+            <div className="username" style={{ color: "white" }}>
+              Welcome, {userName}
+            </div>
+          )}
 
           <NavbarBoostrap.Toggle aria-controls="navbarScroll" />
           <NavbarBoostrap.Collapse id="navbarScroll">
@@ -71,74 +98,118 @@ const Navbar = () => {
                 </Link>
               </OverlayTrigger>
 
-              {/* Create acount page */}
-              <OverlayTrigger
-                placement="bottom"
-                delay={{ show: 250, hide: 400 }}
-                overlay={renderCreate}
-              >
-                <Link
-                  className={`nav-link ${
-                    isRouteActive("/create-account") ? "" : "active"
-                  }`}
-                  aria-current="page"
-                  to="/create-account"
+              {/* Login page */}
+              {!token && (
+                <OverlayTrigger
+                  placement="bottom"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={renderLogin}
                 >
-                  Create Acount
-                </Link>
-              </OverlayTrigger>
+                  <Link
+                    className={`nav-link ${
+                      isRouteActive("/login") ? "" : "active"
+                    }`}
+                    aria-current="page"
+                    to="/login"
+                  >
+                    Login
+                  </Link>
+                </OverlayTrigger>
+              )}
+
+              {/* Create account page */}
+              {!token && (
+                <OverlayTrigger
+                  placement="bottom"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={renderCreate}
+                >
+                  <Link
+                    className={`nav-link ${
+                      isRouteActive("/create-account") ? "" : "active"
+                    }`}
+                    aria-current="page"
+                    to="/create-account"
+                  >
+                    Create Account
+                  </Link>
+                </OverlayTrigger>
+              )}
 
               {/* Withdrawl page */}
-              <OverlayTrigger
-                placement="bottom"
-                delay={{ show: 250, hide: 400 }}
-                overlay={renderWithdrawl}
-              >
-                <Link
-                  className={`nav-link ${
-                    isRouteActive("/withdraw") ? "" : "active"
-                  }`}
-                  aria-current="page"
-                  to="/withdraw"
+              {token && (
+                <OverlayTrigger
+                  placement="bottom"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={renderWithdrawl}
                 >
-                  Withdraw
-                </Link>
-              </OverlayTrigger>
+                  <Link
+                    className={`nav-link ${
+                      isRouteActive("/withdraw") ? "" : "active"
+                    }`}
+                    aria-current="page"
+                    to="/withdraw"
+                  >
+                    Withdraw
+                  </Link>
+                </OverlayTrigger>
+              )}
 
               {/* Deposit Page */}
-
-              <OverlayTrigger
-                placement="bottom"
-                delay={{ show: 250, hide: 400 }}
-                overlay={renderDeposit}
-              >
-                <Link
-                  className={`nav-link ${
-                    isRouteActive("/deposit") ? "" : "active"
-                  }`}
-                  aria-current="page"
-                  to="/deposit"
+              {token && (
+                <OverlayTrigger
+                  placement="bottom"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={renderDeposit}
                 >
-                  Deposit
-                </Link>
-              </OverlayTrigger>
+                  <Link
+                    className={`nav-link ${
+                      isRouteActive("/deposit") ? "" : "active"
+                    }`}
+                    aria-current="page"
+                    to="/deposit"
+                  >
+                    Deposit
+                  </Link>
+                </OverlayTrigger>
+              )}
 
               {/* All data page */}
-              <OverlayTrigger
-                placement="bottom"
-                delay={{ show: 250, hide: 400 }}
-                overlay={renderAlldata}
-              >
-                <Link
-                  className={`nav-link ${
-                    isRouteActive("/all-data") ? "" : "active"
-                  }`}
-                  aria-current="page"
-                  to="/all-data"
+              {/* {token && (
+                <OverlayTrigger
+                  placement="bottom"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={renderAlldata}
                 >
-                  All Data
+                  <Link
+                    className={`nav-link ${
+                      isRouteActive("/all-data") ? "" : "active"
+                    }`}
+                    aria-current="page"
+                    to="/all-data"
+                  >
+                    All Data
+                  </Link>
+                </OverlayTrigger>
+              )} */}
+
+              {/* Logout */}
+              {token && (
+                <Link
+                  className={`nav-link ${isRouteActive("/") ? "" : "active"}`}
+                  aria-current="page"
+                  to="/"
+                  onClick={handleLogout}
+                  style={{
+                    textDecoration: "none", // Remove underline
+                    color: "#fff", // Text color
+                    fontWeight: "bold", // Text weight
+                    marginRight: "20px", // Adjust spacing
+                  }}
+                >
+                  Logout
                 </Link>
-              </OverlayTrigger>
+              )}
             </Nav>
           </NavbarBoostrap.Collapse>
         </Container>
