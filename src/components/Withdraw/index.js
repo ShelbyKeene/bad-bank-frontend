@@ -13,8 +13,8 @@ function Withdraw() {
       });
 
       if (response.ok) {
-        // Deposit was successful
-        alert('Deposit successful!');
+        // Withdraw was successful
+        alert('Withdrawl successful!');
         setEmail('');
         setAmount('');
       } else {

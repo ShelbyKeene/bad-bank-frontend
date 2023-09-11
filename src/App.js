@@ -2,12 +2,13 @@
 import React, { useState, useEffect,useCallback } from "react";
 import {Route, Routes} from 'react-router-dom';
 import Home from "./components/Home"
-import Alldata from "./components/AllData/index";
+// import Alldata from "./components/AllData/index";
 import CreateAccount from "./components/CreateAccount";
 import Navbar from "./components/NavBar/index";
 import Withdraw from "./components/Withdraw";
 import Deposit from "./components/Deposit";
 import Login from "./components/Login/index";
+import CheckBalance from "./components/CheckBalance";
 import { useNavigate } from "react-router-dom";
 // Imports end /////////////////////////////////////////////
 
@@ -107,7 +108,9 @@ return (
         <>
           <Route path="/withdraw" element={<Withdraw token={token} />} />
           <Route path="/deposit" element={<Deposit token={token} />} />
-          <Route path="/all-data" element={<Alldata token={token} users={users}/>} />
+          <Route path="/balance" element={<CheckBalance />} />
+
+          {/* <Route path="/all-data" element={<Alldata token={token} users={users}/>} /> */}
         </>
       )}
     </Routes>
