@@ -108,7 +108,7 @@ return (
         <>
           <Route path="/withdraw" element={<Withdraw token={token} />} />
           <Route path="/deposit" element={<Deposit token={token} />} />
-          <Route path="/balance" element={<CheckBalance />} />
+          <Route path="/balance" element={<CheckBalance token={token} />} />
 
           {/* <Route path="/all-data" element={<Alldata token={token} users={users}/>} /> */}
         </>

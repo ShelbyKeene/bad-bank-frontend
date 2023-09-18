@@ -9,8 +9,9 @@ import Logo from "../Photos/logoPIC.png";
 import Image from "react-bootstrap/Image";
 
 const Navbar = ({ handleLogout, token }) => {
+  console.log(token)
   // const [userName, setUserName] = useState(null);
-
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTQ5NjkwMDcsImV4cCI6MTY5NDk4NzAwN30.qrruzAmeULnpWVXC0n-5cfqHyDRtIc_xXxU3sBElJdQ
   // Effect to load user's name from localStorage on component mount
   //  useEffect(() => {
   //   const storedUser = localStorage.getItem("user");
