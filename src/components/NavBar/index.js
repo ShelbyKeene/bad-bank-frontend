@@ -75,12 +75,7 @@ const Navbar = ({ handleLogout, token }) => {
       <NavbarBoostrap bg="dark" variant="dark" expand="lg">
         <Container fluid>
           <Image src={Logo} fluid style={{ height: "55px", width: "55px" }} />
-          {/* {token && userName && (
-            <div className="username" style={{ color: "white" }}>
-              Welcome, {userName}
-            </div>
-          )} */}
-
+     
           <NavbarBoostrap.Toggle aria-controls="navbarScroll" />
           <NavbarBoostrap.Collapse id="navbarScroll">
             <Nav
@@ -104,7 +99,7 @@ const Navbar = ({ handleLogout, token }) => {
               </OverlayTrigger>
 
               {/* Login page */}
-              {!token && (
+             
                 <OverlayTrigger
                   placement="bottom"
                   delay={{ show: 250, hide: 400 }}
@@ -120,10 +115,10 @@ const Navbar = ({ handleLogout, token }) => {
                     Login
                   </Link>
                 </OverlayTrigger>
-              )}
+         
 
               {/* Create account page */}
-              {!token && (
+           
                 <OverlayTrigger
                   placement="bottom"
                   delay={{ show: 250, hide: 400 }}
@@ -139,9 +134,8 @@ const Navbar = ({ handleLogout, token }) => {
                     Create Account
                   </Link>
                 </OverlayTrigger>
-              )}
-              {/* balance page */}
-              {token && (
+           
+        
                 <OverlayTrigger
                   placement="bottom"
                   delay={{ show: 250, hide: 400 }}
@@ -157,9 +151,9 @@ const Navbar = ({ handleLogout, token }) => {
                     Balance
                   </Link>
                 </OverlayTrigger>
-              )}
+         
               {/* Withdrawl page */}
-              {token && (
+        
                 <OverlayTrigger
                   placement="bottom"
                   delay={{ show: 250, hide: 400 }}
@@ -175,10 +169,10 @@ const Navbar = ({ handleLogout, token }) => {
                     Withdraw
                   </Link>
                 </OverlayTrigger>
-              )}
+           
 
               {/* Deposit Page */}
-              {token && (
+            
                 <OverlayTrigger
                   placement="bottom"
                   delay={{ show: 250, hide: 400 }}
@@ -194,29 +188,11 @@ const Navbar = ({ handleLogout, token }) => {
                     Deposit
                   </Link>
                 </OverlayTrigger>
-              )}
+            
 
-              {/* All data page */}
-              {/* {token && (
-                <OverlayTrigger
-                  placement="bottom"
-                  delay={{ show: 250, hide: 400 }}
-                  overlay={renderAlldata}
-                >
-                  <Link
-                    className={`nav-link ${
-                      isRouteActive("/all-data") ? "" : "active"
-                    }`}
-                    aria-current="page"
-                    to="/all-data"
-                  >
-                    All Data
-                  </Link>
-                </OverlayTrigger>
-              )} */}
 
               {/* Logout */}
-              {token && (
+          
                 <Link
                   className={`nav-link ${isRouteActive("/") ? "" : "active"}`}
                   aria-current="page"
@@ -231,7 +207,7 @@ const Navbar = ({ handleLogout, token }) => {
                 >
                   Logout
                 </Link>
-              )}
+              
             </Nav>
           </NavbarBoostrap.Collapse>
         </Container>
