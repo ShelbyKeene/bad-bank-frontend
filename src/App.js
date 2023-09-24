@@ -146,7 +146,7 @@ function App() {
           </>
         )}
 
-        {!loggedInUser && <></>}
+        {loggedInUser && <></>}
         {/* Deposit */}
         <Route
           path="/deposit"
