@@ -8,13 +8,13 @@ function Withdraw() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/account/update/${email}/-${amount}`, {
+      const response = await fetch(`https://backend-bank-850738bd4b85.herokuapp.com/account/update/${email}/-${amount}`, {
         method: 'GET',
       });
 
       if (response.ok) {
-        // Deposit was successful
-        alert('Deposit successful!');
+        // Withdraw was successful
+        alert('Withdrawl successful!');
         setEmail('');
         setAmount('');
       } else {
