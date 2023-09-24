@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 
 function Login({
   handleLogout,
@@ -16,13 +16,13 @@ function Login({
       {loggedInUser ? (
         <div>
           <p>
-            You are logged in using the following email: {loggedInUser.email}
+          <p>Welcome, {loggedInUser.displayName}</p>
           </p>
           <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
         <div>
-          <p>Please log in with your Okta Login</p>
+          <p>Please login</p>
           <input
             type="email"
             placeholder="Email"
@@ -36,7 +36,7 @@ function Login({
             onChange={(e) => setPassword(e.target.value)}
           />
           <button onClick={handleLogin}>Login</button>
-          <Link to="/create-account">Don't have a login. Create Account</Link>
+          
           <button onClick={handleGoogleLogin}>Login with Google</button>
         </div>
       )}
