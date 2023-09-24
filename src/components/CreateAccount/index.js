@@ -59,7 +59,7 @@ function CreateUser({ setToken, navigate }) {
         setErrorPasswordLength(true);
         return null;
       }
-      const response = await fetch("http://localhost:3000/account/create", {
+      const response = await fetch("https://backend-bank-850738bd4b85.herokuapp.com/account/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

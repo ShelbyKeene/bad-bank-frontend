@@ -8,7 +8,7 @@ function Deposit() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/account/update/${email}/${amount}`, {
+      const response = await fetch(`https://backend-bank-850738bd4b85.herokuapp.com/update/${email}/${amount}`, {
         method: 'GET',
       });
 
