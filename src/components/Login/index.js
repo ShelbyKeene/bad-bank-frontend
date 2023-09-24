@@ -16,7 +16,7 @@ function Login({
       {loggedInUser ? (
         <div>
           <p>
-            You are logged in using the following email: {loggedInUser.email}
+          <p>Welcome, {loggedInUser.displayName}</p>
           </p>
           <button onClick={handleLogout}>Logout</button>
         </div>

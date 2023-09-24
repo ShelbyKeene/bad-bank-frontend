@@ -1,5 +1,5 @@
 // Imports Start ///////////////////////////////////////////
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 // import Alldata from "./components/AllData/index";
@@ -41,7 +41,7 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
-
+console.log(loggedInUser)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,6 +56,7 @@ function App() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        setLoggedInUser(user);
         console.log(user);
       })
       .catch((error) => {
@@ -88,11 +89,11 @@ function App() {
   return (
     <div className="main-app-div">
       {/* Navbar outside route, it will stay consistent on all pages */}
-      <Navbar handleLogout={handleLogout} />
+      <Navbar handleLogout={handleLogout} loggedInUser={loggedInUser}/>
 
       {/* Main Routes, all routes between each component*/}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home loggedInUse={loggedInUser} />} />
 
         <Route
           path="/login"
