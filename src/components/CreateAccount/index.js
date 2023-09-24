@@ -11,7 +11,7 @@ function CreateUser({ setToken, navigate }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [status, setStatus] = useState("");
-  const [error, setError] = useState(null);
+  
   const [errorPasswordMatch, setErrorPasswordMatch] = useState(false);
   const [errorUsertoUpperCase, setErrorUserToUpperCase] = useState(false);
   const [errorEmail, setErrorEmail] = useState(false);
@@ -67,14 +67,12 @@ function CreateUser({ setToken, navigate }) {
         body: JSON.stringify({ name, email, password }),
       });
 
-      const data = await response.json();
 
       if (response.ok) {
         setStatus("User created successfully!");
         navigate("/");
       } else {
-        setStatus("Failed to create user");
-        setError(data.message);
+      
       }
     } catch (error) {
       setStatus("An error occurred");
