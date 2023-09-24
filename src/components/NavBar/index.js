@@ -29,11 +29,11 @@ const Navbar = ({ handleLogout, loggedInUser}) => {
     </Tooltip>
   );
 
-  const renderCreate = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      Unlock Your Financial Potential with Us: Open Your Path to Prosperity!
-    </Tooltip>
-  );
+  // const renderCreate = (props) => (
+  //   <Tooltip id="button-tooltip" {...props}>
+  //     Unlock Your Financial Potential with Us: Open Your Path to Prosperity!
+  //   </Tooltip>
+  // );
 
   const renderWithdrawl = (props) => (
     <Tooltip id="button-tooltip" {...props}>
