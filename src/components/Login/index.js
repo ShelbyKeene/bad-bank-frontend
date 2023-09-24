@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-function Login({handleLogout,loggedInUser,handleLogin,handleGoogleLogin,password, setPassword,email, setEmail}) {
- 
-  console.log(loggedInUser)
-
-
-
-
-
+function Login({
+  handleLogout,
+  loggedInUser,
+  handleLogin,
+  handleGoogleLogin,
+  password,
+  setPassword,
+  email,
+  setEmail,
+}) {
   return (
     <div>
       {loggedInUser ? (
         <div>
-          <p>You are logged in using the following email: {loggedInUser.email}</p>
+          <p>
+            You are logged in using the following email: {loggedInUser.email}
+          </p>
           <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
@@ -31,6 +36,7 @@ function Login({handleLogout,loggedInUser,handleLogin,handleGoogleLogin,password
             onChange={(e) => setPassword(e.target.value)}
           />
           <button onClick={handleLogin}>Login</button>
+          <Link to="/create-account">Don't have a login. Create Account</Link>
           <button onClick={handleGoogleLogin}>Login with Google</button>
         </div>
       )}
@@ -39,4 +45,3 @@ function Login({handleLogout,loggedInUser,handleLogin,handleGoogleLogin,password
 }
 
 export default Login;
-

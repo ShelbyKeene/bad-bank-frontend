@@ -8,18 +8,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import Logo from "../Photos/logoPIC.png";
 import Image from "react-bootstrap/Image";
 
-const Navbar = ({ handleLogout, token }) => {
-  console.log(token)
-  // const [userName, setUserName] = useState(null);
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTQ5NjkwMDcsImV4cCI6MTY5NDk4NzAwN30.qrruzAmeULnpWVXC0n-5cfqHyDRtIc_xXxU3sBElJdQ
-  // Effect to load user's name from localStorage on component mount
-  //  useEffect(() => {
-  //   const storedUser = localStorage.getItem("user");
-  //   if (storedUser) {
-  //     const userData = JSON.parse(storedUser);
-  //     setUserName(userData.name); // Assuming 'name' is the property that stores the user's name
-  //   }
-  // }, []);
+const Navbar = ({ handleLogout, loggedInUser}) => {
 
   const location = useLocation();
 
@@ -98,8 +87,8 @@ const Navbar = ({ handleLogout, token }) => {
                 </Link>
               </OverlayTrigger>
 
+
               {/* Login page */}
-             
                 <OverlayTrigger
                   placement="bottom"
                   delay={{ show: 250, hide: 400 }}
@@ -112,12 +101,12 @@ const Navbar = ({ handleLogout, token }) => {
                     aria-current="page"
                     to="/login"
                   >
-                    Login
+                    Login/Logout
                   </Link>
                 </OverlayTrigger>
          
 
-              {/* Create account page */}
+              {/* Create account page
            
                 <OverlayTrigger
                   placement="bottom"
@@ -133,7 +122,7 @@ const Navbar = ({ handleLogout, token }) => {
                   >
                     Create Account
                   </Link>
-                </OverlayTrigger>
+                </OverlayTrigger> */}
            
         
                 <OverlayTrigger
@@ -191,12 +180,12 @@ const Navbar = ({ handleLogout, token }) => {
             
 
 
-              {/* Logout */}
+              {/* Logout
           
                 <Link
                   className={`nav-link ${isRouteActive("/") ? "" : "active"}`}
                   aria-current="page"
-                  to="/"
+                  to="/login"
                   onClick={handleLogout}
                   style={{
                     textDecoration: "none", // Remove underline
@@ -207,7 +196,7 @@ const Navbar = ({ handleLogout, token }) => {
                 >
                   Logout
                 </Link>
-              
+               */}
             </Nav>
           </NavbarBoostrap.Collapse>
         </Container>

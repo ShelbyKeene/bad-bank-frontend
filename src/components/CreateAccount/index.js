@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 
 
 
-function CreateUser({ setToken ,navigate }) {
+function CreateUser({ setToken ,navigate}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,10 +30,6 @@ function CreateUser({ setToken ,navigate }) {
 
       if (response.ok) {
         setStatus("User created successfully!");
-        if (data.shortToken) {
-          setToken(data.shortToken); // Set the shortToken here
-          window.localStorage.setItem("userToken", data.shortToken);
-        }
         navigate("/");
       } else {
         setStatus("Failed to create user");

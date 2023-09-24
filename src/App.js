@@ -44,11 +44,11 @@ const provider = new GoogleAuthProvider();
 function App() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
 
 const navigate = useNavigate();
-const [loggedInUser, setLoggedInUser] = useState(null);
+
 
 useEffect(() => {
   const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -56,7 +56,9 @@ useEffect(() => {
   });
 
   return () => unsubscribe();
-}, [auth]);
+}, []);
+
+
 
 const handleLogin = () => {
   signInWithEmailAndPassword(auth, email, password)
@@ -68,6 +70,7 @@ const handleLogin = () => {
       console.log(error);
     });
 };
+
 
 const handleGoogleLogin = () => {
   signInWithPopup(auth, provider)
@@ -86,6 +89,7 @@ const handleGoogleLogin = () => {
       console.log(error);
     });
 };
+
 
 const handleLogout = () => {
   auth.signOut();
@@ -111,20 +115,19 @@ return (
     <Routes>
   <Route path="/" element={<Home />} />
  
-  {!loggedInUser && (
-    <>
+ 
       <Route path="/login" element={<Login navigate={navigate} password={password} setPassword={setPassword} setEmail={setEmail} email={email} loggedInUser={loggedInUser} handleGoogleLogin={handleGoogleLogin} handleLogin={handleLogin}handleLogout={handleLogout}/>} />
-      <Route path="/create-account" element={<CreateAccount navigate={navigate} loggedInUser={loggedInUser} />} />
-      </>
-  )}
+      <Route path="/create-account" element={<CreateAccount navigate={navigate} loggedInUser={loggedInUser} handleLogout={handleLogout} />} />
+ 
+  
       
-      {loggedInUser && (
-    <>
+     
+
       <Route path="/withdraw" element={<Withdraw loggedInUser={loggedInUser} />} />
       <Route path="/deposit" element={<Deposit loggedInUser={loggedInUser} />} />
       <Route path="/balance" element={<CheckBalance loggedInUser={loggedInUser} />} />
-      </>
-  )}
+    
+
 </Routes>
 
     {/* Routes end */}
