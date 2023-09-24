@@ -45,7 +45,11 @@ const Navbar = ({ handleLogout, loggedInUser }) => {
       Balance!
     </Tooltip>
   );
-
+  const renderCreate = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Unlock Your Financial Potential with Us: Open Your Path to Prosperity!
+    </Tooltip>
+  );
   return (
     <div>
       <NavbarBoostrap bg="dark" variant="dark" expand="lg">
@@ -59,13 +63,6 @@ const Navbar = ({ handleLogout, loggedInUser }) => {
               style={{ maxHeight: "100px", font: "white" }}
               navbarScroll
             >
-              {/* User's Name */}
-              {loggedInUser && (
-                <p style={{ color: "white", margin: "0", padding: "10px" }}>
-                  Welcome, {loggedInUser.displayName}
-                </p>
-              )}
-
               {/* Home */}
 
               <OverlayTrigger
@@ -81,8 +78,6 @@ const Navbar = ({ handleLogout, loggedInUser }) => {
                   Home
                 </Link>
               </OverlayTrigger>
-
-        
 
               {/* Login page */}
               {!loggedInUser && (
@@ -100,6 +95,27 @@ const Navbar = ({ handleLogout, loggedInUser }) => {
                       to="/login"
                     >
                       Login
+                    </Link>
+                  </OverlayTrigger>
+                </>
+              )}
+
+              {!loggedInUser && (
+                <>
+                  {/* Create Page */}
+                  <OverlayTrigger
+                    placement="bottom"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={renderCreate}
+                  >
+                    <Link
+                      className={`nav-link ${
+                        isRouteActive("/create-account") ? "" : "active"
+                      }`}
+                      aria-current="page"
+                      to="/create-account"
+                    >
+                      Create Account
                     </Link>
                   </OverlayTrigger>
                 </>
@@ -168,11 +184,8 @@ const Navbar = ({ handleLogout, loggedInUser }) => {
                 </>
               )}
 
-
-
-
-                    {/* Logout */}
-                    {loggedInUser && (
+              {/* Logout */}
+              {loggedInUser && (
                 <>
                   <Link
                     className={`nav-link ${isRouteActive("/") ? "" : "active"}`}
@@ -191,6 +204,14 @@ const Navbar = ({ handleLogout, loggedInUser }) => {
                 </>
               )}
             </Nav>
+            {/* User's Name */}
+            {loggedInUser && (
+              <div className="d-flex">
+                <p style={{ color: "white", margin: "0", padding: "10px" }}>
+                  {loggedInUser.displayName}
+                </p>
+              </div>
+            )}
           </NavbarBoostrap.Collapse>
         </Container>
       </NavbarBoostrap>

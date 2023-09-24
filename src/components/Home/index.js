@@ -3,12 +3,8 @@ import Card from "react-bootstrap/Card";
 import HomePic from "../Photos/homePG.jpeg";
 import Image from "react-bootstrap/Image";
 import Logo from "../Photos/logoPIC.png";
-import { useLocation } from "react-router-dom";
-const Home = () => {
-  const location = useLocation();
-  const { successMessage } = location.state || {};
 
-
+const Home = ({ loggedInUser }) => {
   return (
     <div style={{ position: "relative", height: "100vh" }}>
       <Image
@@ -16,7 +12,7 @@ const Home = () => {
         fluid
         style={{ height: "100%", width: "100%", objectFit: "cover" }}
       />
-      {successMessage && <p>{successMessage}</p>}
+
       <Card
         style={{
           width: "85%",
@@ -43,12 +39,23 @@ const Home = () => {
                 French Quarter Financial Bank
               </h1>
             </Card.Title>
+
+            {/* User's Name */}
+            {loggedInUser && (
+              <div className="d-flex">
+                <h3 style={{ color: "white", margin: "0 auto" }}>
+                  Welcome, {loggedInUser.displayName}
+                </h3>
+              </div>
+            )}
+
             <Image
               src={Logo}
               fluid
               style={{ height: "100px", width: "100px", margin: "0 auto" }}
             />
           </div>
+
           <Card.Text>
             Welcome to French Quarter Financial Bank, your trusted banking
             partner in the heart of New Orleans. With our deep-rooted commitment

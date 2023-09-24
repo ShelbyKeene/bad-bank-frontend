@@ -41,29 +41,22 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
-console.log(loggedInUser)
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setLoggedInUser(user);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
+  //Mongo DB login
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         setLoggedInUser(user);
-        console.log(user);
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  // Google login
   const handleGoogleLogin = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -72,6 +65,7 @@ console.log(loggedInUser)
         if (user.email && user.email.includes("@")) {
           console.log("Access granted.");
           setLoggedInUser(user);
+          navigate("/");
         } else {
           console.log("Access denied");
           auth.signOut();
@@ -82,60 +76,92 @@ console.log(loggedInUser)
       });
   };
 
+  //Logout
   const handleLogout = () => {
     auth.signOut();
   };
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setLoggedInUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <div className="main-app-div">
       {/* Navbar outside route, it will stay consistent on all pages */}
-      <Navbar handleLogout={handleLogout} loggedInUser={loggedInUser}/>
+      <Navbar handleLogout={handleLogout} loggedInUser={loggedInUser} />
 
       {/* Main Routes, all routes between each component*/}
       <Routes>
-        <Route path="/" element={<Home loggedInUse={loggedInUser} />} />
+        <Route path="/" element={<Home loggedInUser={loggedInUser} />} />
+        {/* Login */}
 
-        <Route
-          path="/login"
-          element={
-            <Login
-              navigate={navigate}
-              password={password}
-              setPassword={setPassword}
-              setEmail={setEmail}
-              email={email}
-              loggedInUser={loggedInUser}
-              handleGoogleLogin={handleGoogleLogin}
-              handleLogin={handleLogin}
-              handleLogout={handleLogout}
+        {!loggedInUser && (
+          <>
+            <Route
+              path="/login"
+              element={
+                <Login
+                  navigate={navigate}
+                  password={password}
+                  setPassword={setPassword}
+                  setEmail={setEmail}
+                  email={email}
+                  loggedInUser={loggedInUser}
+                  handleGoogleLogin={handleGoogleLogin}
+                  handleLogin={handleLogin}
+                  handleLogout={handleLogout}
+                />
+              }
             />
-          }
-        />
-        <Route
-          path="/create-account"
-          element={
-            <CreateAccount
-              navigate={navigate}
-              loggedInUser={loggedInUser}
-              handleLogout={handleLogout}
-            />
-          }
-        />
+          </>
+        )}
 
-        <Route
-          path="/withdraw"
-          element={<Withdraw loggedInUser={loggedInUser} />}
-        />
+        {!loggedInUser && (
+          <>
+            {/* Create Account */}
+            <Route
+              path="/create-account"
+              element={
+                <CreateAccount
+                  navigate={navigate}
+                  loggedInUser={loggedInUser}
+                  handleLogout={handleLogout}
+                />
+              }
+            />
+          </>
+        )}
+
+        {loggedInUser && (
+          <>
+            {/* Withdraw */}
+            <Route
+              path="/withdraw"
+              element={<Withdraw loggedInUser={loggedInUser} />}
+            />
+          </>
+        )}
+
+        {!loggedInUser && <></>}
+        {/* Deposit */}
         <Route
           path="/deposit"
           element={<Deposit loggedInUser={loggedInUser} />}
         />
-        <Route
-          path="/balance"
-          element={<CheckBalance loggedInUser={loggedInUser} />}
-        />
+        {loggedInUser && (
+          <>
+            <Route
+              path="/balance"
+              element={<CheckBalance loggedInUser={loggedInUser} />}
+            />
+          </>
+        )}
+        {/* Balance */}
       </Routes>
-
       {/* Routes end */}
 
       {/* Main Div End */}
