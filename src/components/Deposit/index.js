@@ -27,7 +27,7 @@ function Deposit() {
       }
 
       const response = await fetch(
-        `http://localhost:3000/account/update/${email}/${amount}`,
+        `https://backend-bank-850738bd4b85.herokuapp.com/account/update/${email}/${amount}`,
         {
           method: "GET",
         }
@@ -98,7 +98,7 @@ function Deposit() {
               style={{ width: "100%" }} // Make the input width 100%
             />
             <br />
-            <Button type="submit" disabled={isSubmitDisabled} style={{ width: "100%" }}>
+            <Button  variant="dark" type="submit" disabled={isSubmitDisabled} style={{ width: "100%" }}>
               Deposit
             </Button>
           </Card.Body>
