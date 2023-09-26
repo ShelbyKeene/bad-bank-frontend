@@ -80,7 +80,7 @@ const Navbar = ({ handleLogout, loggedInUser }) => {
               </OverlayTrigger>
 
               {/* Login page */}
-              {!loggedInUser && (
+              {/* {!loggedInUser && (
                 <>
                   <OverlayTrigger
                     placement="bottom"
@@ -98,7 +98,7 @@ const Navbar = ({ handleLogout, loggedInUser }) => {
                     </Link>
                   </OverlayTrigger>
                 </>
-              )}
+              )} */}
 
               {!loggedInUser && (
                 <>

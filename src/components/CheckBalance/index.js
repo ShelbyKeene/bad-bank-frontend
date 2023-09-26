@@ -6,7 +6,7 @@ function CheckBalance() {
 
   const handleCheckBalance = async () => {
     try {
-      const response = await fetch(`https://backend-bank-850738bd4b85.herokuapp.com/account/findOne/${email}`);
+      const response = await fetch(`http://localhost:3000/account/findOne/${email}`);
       if (response.ok) {
         const userData = await response.json();
         setBalance(userData.balance); // Assuming your user data contains a "balance" field
