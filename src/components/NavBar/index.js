@@ -22,11 +22,11 @@ const Navbar = ({ handleLogout, loggedInUser }) => {
     </Tooltip>
   );
 
-  const renderLogin = (props) => (
-    <Tooltip id="button-tooltip" {...props}>
-      Enter the Big Easy!
-    </Tooltip>
-  );
+  // const renderLogin = (props) => (
+  //   <Tooltip id="button-tooltip" {...props}>
+  //     Enter the Big Easy!
+  //   </Tooltip>
+  // );
 
   const renderWithdrawl = (props) => (
     <Tooltip id="button-tooltip" {...props}>
