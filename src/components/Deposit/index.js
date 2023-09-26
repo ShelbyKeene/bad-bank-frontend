@@ -1,58 +1,154 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Image from "react-bootstrap/Image";
+import IMG from "../Photos/Streets.jpeg";
 
 function Deposit() {
-  const [email, setEmail] = useState('');
-  const [amount, setAmount] = useState('');
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showAlertError, setShowAlertError] = useState(false);
+  const [email, setEmail] = useState("");
+  const [amount, setAmount] = useState("");
+
+  // Closes alert window
+  const handleCloseAlert = () => {
+    setShowSuccessAlert(false);
+    setShowAlertError(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`https://backend-bank-850738bd4b85.herokuapp.com/update/${email}/${amount}`, {
-        method: 'GET',
-      });
+      if (amount === 0 || isNaN(amount)) {
+        setShowAlertError(true);
+        return;
+      }
+
+      const response = await fetch(
+        `https://backend-bank-850738bd4b85.herokuapp.com/account/update/${email}/${amount}`,
+        {
+          method: "GET",
+        }
+      );
 
       if (response.ok) {
         // Deposit was successful
-        alert('Deposit successful!');
-        setEmail('');
-        setAmount('');
+        setShowSuccessAlert(true);
+        setEmail("");
+        setAmount("");
       } else {
         // Handle error cases here
-        alert('Deposit failed. Please check your input and try again.');
+        alert("Deposit failed. Please check your input and try again.");
       }
     } catch (error) {
-      console.error('Error depositing money:', error);
+      console.error("Error depositing money:", error);
     }
   };
+  const isSubmitDisabled = amount <= 0;
 
   return (
-    <div>
-      <h2>Deposit Form</h2>
+    <div style={{ position: "relative", height: "100vh" }}>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Amount:</label>
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Deposit</button>
+        {/* Card */}
+
+        {/* Error Message  */}
+
+        <Image
+          src={IMG}
+          fluid
+          style={{ height: "100%", width: "100%", objectFit: "cover" }}
+        />
+
+        {/* Card */}
+        <Card
+          style={{
+            width: "35%", // Set the card width to fit its content
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+          className="text-white"
+        >
+          <Card.Body>
+            <h4 style={{ textAlign: "center" }}>
+              <strong>Deposit</strong>
+            </h4>
+            <br />
+            <label>Email:</label>
+            <br />
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={{ width: "100%" }} // Make the input width 100%
+            />
+            <br />
+            <label>Amount:</label>
+            <br />
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              required
+              style={{ width: "100%" }} // Make the input width 100%
+            />
+            <br />
+            <Button  variant="dark" type="submit" disabled={isSubmitDisabled} style={{ width: "100%" }}>
+              Deposit
+            </Button>
+          </Card.Body>
+        </Card>
+
+        {showSuccessAlert && (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <Alert variant="success">
+              <Alert.Heading>Successful Deposit!</Alert.Heading>
+              <div>
+                <Button onClick={handleCloseAlert} variant="outline-success">
+                  Close me y'all!
+                </Button>
+              </div>
+            </Alert>
+          </div>
+        )}
+
+        {/* Error Message  */}
+        {showAlertError && (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <Alert variant="danger">
+              <Alert.Heading>
+                Please enter a number greater than zero
+              </Alert.Heading>
+              <div className="d-flex justify-content-end">
+                <Button onClick={handleCloseAlert} variant="outline-success">
+                  Close me y'all!
+                </Button>
+              </div>
+            </Alert>
+          </div>
+        )}
       </form>
     </div>
   );
 }
 
 export default Deposit;
-

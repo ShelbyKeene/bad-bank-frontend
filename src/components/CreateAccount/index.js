@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -11,22 +12,21 @@ function CreateUser({ setToken, navigate }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [status, setStatus] = useState("");
-  
+
   const [errorPasswordMatch, setErrorPasswordMatch] = useState(false);
   const [errorUsertoUpperCase, setErrorUserToUpperCase] = useState(false);
   const [errorEmail, setErrorEmail] = useState(false);
-  const [errorPasswordToUpperCase, setErrorPasswordToUpperCase] = useState(false);
+  const [errorPasswordToUpperCase, setErrorPasswordToUpperCase] =
+    useState(false);
   const [errorPasswordLength, setErrorPasswordLength] = useState(false);
   const [show, setShow] = useState(true);
   const [disableButton] = useState(false); // State variable to disable the button
 
   async function handleCreateUser() {
-   
     setStatus("Creating user...");
 
     try {
       // checks if both password and confirm password are exactly the same
-
 
       if (password !== confirmPassword) {
         setErrorPasswordMatch(true);
@@ -59,7 +59,7 @@ function CreateUser({ setToken, navigate }) {
         setErrorPasswordLength(true);
         return null;
       }
-      const response = await fetch("https://backend-bank-850738bd4b85.herokuapp.com/account/create", {
+      const response = await fetch(`https://backend-bank-850738bd4b85.herokuapp.com/account/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,12 +67,10 @@ function CreateUser({ setToken, navigate }) {
         body: JSON.stringify({ name, email, password }),
       });
 
-
       if (response.ok) {
         setStatus("User created successfully!");
-        navigate("/");
+        setShow(false);
       } else {
-      
       }
     } catch (error) {
       setStatus("An error occurred");
@@ -87,6 +85,11 @@ function CreateUser({ setToken, navigate }) {
     setConfirmPassword("");
     setShow(true);
   }
+
+  function navToLogin() {
+   navigate("/login")
+  }
+
 
   const handleCloseAlert = () => {
     setErrorPasswordMatch(false);
@@ -173,11 +176,22 @@ function CreateUser({ setToken, navigate }) {
               >
                 Create Account
               </Button>
+
+              {/* Login page */}
+              <br></br>
+              <Link
+                aria-current="page"
+                to="/login"
+                style={{
+                  color: "white", // Set text color to white
+                  fontSize: "1px", // Increase font size
+          
+                }}
+              >
+                <h2>Already have an account? Click to login</h2>
+              </Link>
             </Card.Body>
           </Card>
-          <Alert style={{ height: "100px" }} variant={"success"}>
-            Account Created!
-          </Alert>
         </>
       ) : (
         <div
@@ -190,14 +204,27 @@ function CreateUser({ setToken, navigate }) {
             transform: "translate(-50%, -50%)",
           }}
         >
-          
+          <Alert style={{ height: "100px" }} variant={"success"}>
+            Account Created!
+          </Alert>
           <Button
             type="submit"
             className="btn btn-light"
             onClick={clearForm}
-            variant="light"
+            variant="dark"
           >
             Add another account
+          </Button>
+
+
+          
+          <Button
+            type="submit"
+            className="btn btn-light"
+            onClick={navToLogin}
+            variant="dark"
+          >
+           Login
           </Button>
         </div>
       )}
