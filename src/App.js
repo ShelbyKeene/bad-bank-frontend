@@ -73,6 +73,7 @@ const handleLogin = () => {
 
   // Google login
   const handleGoogleLogin = () => {
+
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;

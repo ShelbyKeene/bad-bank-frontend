@@ -35,7 +35,7 @@ function Deposit({ loggedInUser }) {
 
       // Convert both emails to lowercase and then compare
       if (loggedInUser.email.toLowerCase() !== email.toLowerCase()) {
-        alert("Error: You are not authorized to view this balance.");
+        alert("Error: You are not authorized deposit");
         return;
       }
 
