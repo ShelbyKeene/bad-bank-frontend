@@ -10,11 +10,12 @@ import Deposit from "./components/Deposit";
 import Login from "./components/Login/index";
 import CheckBalance from "./components/CheckBalance";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../src/components/AuthContext'; // Import the useAuth hook
 
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
-  onAuthStateChanged,
+  // onAuthStateChanged,
   // createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -39,6 +40,7 @@ const provider = new GoogleAuthProvider();
 
 // Function Component
 function App() {
+  const { logout } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -91,6 +93,7 @@ const handleLogin = () => {
 
   //Logout
   const handleLogout = () => {
+    logout(); 
     auth.signOut();
   };
 
@@ -107,13 +110,13 @@ const handleLogin = () => {
     console.log(loggedInUser); // Log the loggedInUser
   }, [loggedInUser]);
   
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setLoggedInUser(user);
-    });
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     setLoggedInUser(user);
+  //   });
   
-    return () => unsubscribe();
-  }, []);
+  //   return () => unsubscribe();
+  // }, []);
   
   
 

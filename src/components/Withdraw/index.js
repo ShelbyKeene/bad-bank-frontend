@@ -8,9 +8,9 @@ import { useAuth } from '../AuthContext' ;
 
 
 
-function Withdraw() {
+function Withdraw({loggedInUser}) {
 
-  const { accessToken, loggedInUser } = useAuth();
+  const { accessToken} = useAuth();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showAlertError, setShowAlertError] = useState(false);
   const [email, setEmail] = useState("");
@@ -35,15 +35,7 @@ function Withdraw() {
         setShowAlertError(true);
         return;
       }
-      if (!email) {
-        setShowAlertError(true);
-        return;
-      }
-     // Check if loggedInUser exists and its email matches the input email
-     if (!loggedInUser || loggedInUser.email !== email) {
-      alert('Unauthorized access.'); // Unauthorized access
-      return;
-    }
+ 
       const response = await fetch(
         `http://localhost:3000/account/update/${email}/-${amount}`,
         {

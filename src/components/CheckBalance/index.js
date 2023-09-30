@@ -6,13 +6,24 @@ import Image from 'react-bootstrap/Image';
 import IMG from '../Photos/Streets.jpeg';
 import { useAuth } from '../AuthContext'; // Import the useAuth hook
 
-function CheckBalance() {
+function CheckBalance({loggedInUser}) {
   const [email, setEmail] = useState('');
   const [balance, setBalance] = useState(null);
   const { accessToken } = useAuth(); // Get the access token using the useAuth hook
 
   const handleCheckBalance = async () => {
     try {
+      if (!loggedInUser) {
+        alert("Error: You are not logged in.");
+        return;
+      }
+      
+      // Convert both emails to lowercase and then compare
+      if (loggedInUser.email.toLowerCase() !== email.toLowerCase()) {
+        alert("Error: You are not authorized to view this balance.");
+        return;
+      }
+  
       const response = await fetch(
         `http://localhost:3000/account/findOne/${email}`,
         {
@@ -23,6 +34,7 @@ function CheckBalance() {
           },
         }
       );
+  
       if (response.ok) {
         const userData = await response.json();
         setBalance(userData.balance);
@@ -34,7 +46,7 @@ function CheckBalance() {
       console.error('Error fetching balance:', error);
     }
   };
-
+  
   return (
     <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
       <Image
