@@ -10,7 +10,7 @@ import Deposit from "./components/Deposit";
 import Login from "./components/Login/index";
 import CheckBalance from "./components/CheckBalance";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from '../src/components/AuthContext'; // Import the useAuth hook
+import { useAuth } from "../src/components/AuthContext"; // Import the useAuth hook
 
 import { initializeApp } from "firebase/app";
 import {
@@ -47,33 +47,30 @@ function App() {
   const navigate = useNavigate();
 
   //Mongo DB login
-// In your component, modify the handleLogin function
-const handleLogin = () => {
-  return new Promise((resolve, reject) => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        setLoggedInUser(user);
-        resolve(userCredential); // Resolve the promise with userCredential
-     
-    // Store the token securely
-    const idToken = userCredential.user.getIdToken();
-    localStorage.setItem('authToken', idToken);
+  // In your component, modify the handleLogin function
+  const handleLogin = () => {
+    return new Promise((resolve, reject) => {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          setLoggedInUser(user);
+          resolve(userCredential); // Resolve the promise with userCredential
 
+          // Store the token securely
+          const idToken = userCredential.user.getIdToken();
+          localStorage.setItem("authToken", idToken);
 
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
-        reject(error); // Reject the promise with the error
-      });
-  });
-};
-
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+          reject(error); // Reject the promise with the error
+        });
+    });
+  };
 
   // Google login
   const handleGoogleLogin = () => {
-
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
@@ -94,7 +91,7 @@ const handleLogin = () => {
 
   //Logout
   const handleLogout = () => {
-    logout(); 
+    logout();
     auth.signOut();
   };
 
@@ -106,20 +103,17 @@ const handleLogin = () => {
     return () => unsubscribe();
   }, []);
 
-
   // useEffect(() => {
   //   console.log(loggedInUser); // Log the loggedInUser
   // }, [loggedInUser]);
-  
+
   // useEffect(() => {
   //   const unsubscribe = onAuthStateChanged(auth, (user) => {
   //     setLoggedInUser(user);
   //   });
-  
+
   //   return () => unsubscribe();
   // }, []);
-  
-  
 
   return (
     <div className="main-app-div">

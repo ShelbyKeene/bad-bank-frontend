@@ -59,13 +59,16 @@ function CreateUser({ setToken, navigate }) {
         setErrorPasswordLength(true);
         return null;
       }
-      const response = await fetch(`https://backend-bank-850738bd4b85.herokuapp.com/account/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
+      const response = await fetch(
+        `https://backend-bank-850738bd4b85.herokuapp.com/account/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }),
+        }
+      );
 
       if (response.ok) {
         setStatus("User created successfully!");
@@ -87,9 +90,8 @@ function CreateUser({ setToken, navigate }) {
   }
 
   function navToLogin() {
-   navigate("/login")
+    navigate("/login");
   }
-
 
   const handleCloseAlert = () => {
     setErrorPasswordMatch(false);
@@ -176,7 +178,6 @@ function CreateUser({ setToken, navigate }) {
               >
                 Create Account
               </Button>
-
               {/* Login page */}
               <br></br>
               <Link
@@ -185,7 +186,6 @@ function CreateUser({ setToken, navigate }) {
                 style={{
                   color: "white", // Set text color to white
                   fontSize: "1px", // Increase font size
-          
                 }}
               >
                 <h2>Already have an account? Click to login</h2>
@@ -216,15 +216,13 @@ function CreateUser({ setToken, navigate }) {
             Add another account
           </Button>
 
-
-          
           <Button
             type="submit"
             className="btn btn-light"
             onClick={navToLogin}
             variant="dark"
           >
-           Login
+            Login
           </Button>
         </div>
       )}
