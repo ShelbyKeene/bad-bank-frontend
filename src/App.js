@@ -10,10 +10,12 @@ import Deposit from "./components/Deposit";
 import Login from "./components/Login/index";
 import CheckBalance from "./components/CheckBalance";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../src/components/AuthContext'; // Import the useAuth hook
 
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
+  // onAuthStateChanged,
   // createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -38,26 +40,40 @@ const provider = new GoogleAuthProvider();
 
 // Function Component
 function App() {
+  const { logout } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
   const navigate = useNavigate();
 
   //Mongo DB login
-  const handleLogin = () => {
+// In your component, modify the handleLogin function
+const handleLogin = () => {
+  return new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         setLoggedInUser(user);
+        resolve(userCredential); // Resolve the promise with userCredential
+     
+    // Store the token securely
+    const idToken = userCredential.user.getIdToken();
+    localStorage.setItem('authToken', idToken);
+
+
         navigate("/");
       })
       .catch((error) => {
         console.log(error);
+        reject(error); // Reject the promise with the error
       });
-  };
+  });
+};
+
 
   // Google login
   const handleGoogleLogin = () => {
+
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
@@ -78,6 +94,7 @@ function App() {
 
   //Logout
   const handleLogout = () => {
+    logout(); 
     auth.signOut();
   };
 
@@ -88,6 +105,21 @@ function App() {
 
     return () => unsubscribe();
   }, []);
+
+
+  useEffect(() => {
+    console.log(loggedInUser); // Log the loggedInUser
+  }, [loggedInUser]);
+  
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     setLoggedInUser(user);
+  //   });
+  
+  //   return () => unsubscribe();
+  // }, []);
+  
+  
 
   return (
     <div className="main-app-div">

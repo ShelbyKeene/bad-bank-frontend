@@ -4,8 +4,11 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import IMG from "../Photos/Streets.jpeg";
+import { useAuth } from "../AuthContext";
 
-function Deposit() {
+function Deposit({ loggedInUser }) {
+  const { accessToken } = useAuth();
+
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showAlertError, setShowAlertError] = useState(false);
   const [email, setEmail] = useState("");
@@ -25,11 +28,25 @@ function Deposit() {
         setShowAlertError(true);
         return;
       }
+      if (!loggedInUser) {
+        alert("Error: You are not logged in.");
+        return;
+      }
+
+      // Convert both emails to lowercase and then compare
+      if (loggedInUser.email.toLowerCase() !== email.toLowerCase()) {
+        alert("Error: You are not authorized deposit");
+        return;
+      }
 
       const response = await fetch(
-        `https://backend-bank-850738bd4b85.herokuapp.com/account/update/${email}/${amount}`,
+        `http://localhost:3000/account/update/${email}/${amount}`,
         {
           method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -98,7 +115,12 @@ function Deposit() {
               style={{ width: "100%" }} // Make the input width 100%
             />
             <br />
-            <Button  variant="dark" type="submit" disabled={isSubmitDisabled} style={{ width: "100%" }}>
+            <Button
+              variant="dark"
+              type="submit"
+              disabled={isSubmitDisabled}
+              style={{ width: "100%" }}
+            >
               Deposit
             </Button>
           </Card.Body>

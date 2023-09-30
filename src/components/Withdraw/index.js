@@ -4,8 +4,10 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import IMG from "../Photos/Streets.jpeg";
+import { useAuth } from "../AuthContext";
 
-function Withdraw() {
+function Withdraw({ loggedInUser }) {
+  const { accessToken } = useAuth();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showAlertError, setShowAlertError] = useState(false);
   const [email, setEmail] = useState("");
@@ -20,25 +22,33 @@ function Withdraw() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
-
-
     try {
-  
-      const response = await fetch(
-        `https://backend-bank-850738bd4b85.herokuapp.com/account/update/${email}/-${amount}`,
-        {
-          method: "GET",
-        }
-      );
+      if (!loggedInUser) {
+        alert("Error: You are not logged in.");
+        return;
+      }
+
+      // Convert both emails to lowercase and then compare
+      if (loggedInUser.email.toLowerCase() !== email.toLowerCase()) {
+        alert("Error: You are not authorized to view this withdraw");
+        return;
+      }
       if (amount === 0 || isNaN(amount)) {
         setShowAlertError(true);
         return;
       }
-      if (!email) {
-        setShowAlertError(true);
-        return;
-      }
+
+      const response = await fetch(
+        `http://localhost:3000/account/update/${email}/-${amount}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       if (response.ok) {
         // Deposit was successful
         setShowSuccessAlert(true);
@@ -70,7 +80,7 @@ function Withdraw() {
         {/* Card */}
         <Card
           style={{
-            width: "35%", 
+            width: "35%",
             position: "absolute",
             top: "50%",
             left: "50%",
@@ -91,7 +101,7 @@ function Withdraw() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              style={{ width: "100%" }} 
+              style={{ width: "100%" }}
             />
             <br />
             <label>Amount:</label>
@@ -101,11 +111,16 @@ function Withdraw() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               required
-              style={{ width: "100%" }} 
+              style={{ width: "100%" }}
             />
             <br />
-            <Button  variant="dark" type="submit" disabled={isSubmitDisabled} style={{ width: "100%" }}>
-             Withdraw
+            <Button
+              variant="dark"
+              type="submit"
+              disabled={isSubmitDisabled}
+              style={{ width: "100%" }}
+            >
+              Withdraw
             </Button>
           </Card.Body>
         </Card>
