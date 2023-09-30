@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
-  // onAuthStateChanged,
+  onAuthStateChanged,
   // createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -52,8 +52,14 @@ const handleLogin = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         setLoggedInUser(user);
-        navigate("/");
         resolve(userCredential); // Resolve the promise with userCredential
+     
+    // Store the token securely
+    const idToken = userCredential.user.getIdToken();
+    localStorage.setItem('authToken', idToken);
+
+
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -101,7 +107,14 @@ const handleLogin = () => {
     console.log(loggedInUser); // Log the loggedInUser
   }, [loggedInUser]);
   
-
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setLoggedInUser(user);
+    });
+  
+    return () => unsubscribe();
+  }, []);
+  
   
 
   return (

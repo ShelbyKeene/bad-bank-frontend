@@ -2,21 +2,32 @@ import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Image from "react-bootstrap/Image";
-import IMG from "../Photos/Streets.jpeg";
+import Image from 'react-bootstrap/Image';
+import IMG from '../Photos/Streets.jpeg';
+import { useAuth } from '../AuthContext'; // Import the useAuth hook
 
 function CheckBalance() {
   const [email, setEmail] = useState('');
-  const [balance, setBalance] = useState(null); // State for storing the balance
+  const [balance, setBalance] = useState(null);
+  const { accessToken } = useAuth(); // Get the access token using the useAuth hook
 
   const handleCheckBalance = async () => {
     try {
-      const response = await fetch(`https://backend-bank-850738bd4b85.herokuapp.com/account/findOne/${email}`);
+      const response = await fetch(
+        `http://localhost:3000/account/findOne/${email}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Include the access token in the headers
+            'Content-Type': 'application/json',
+          },
+        }
+      );
       if (response.ok) {
         const userData = await response.json();
-        setBalance(userData.balance); // Assuming your user data contains a "balance" field
+        setBalance(userData.balance);
       } else {
-        setBalance(null); // Reset balance if there's an error
+        setBalance(null);
         console.error('Error fetching balance:', response.statusText);
       }
     } catch (error) {
@@ -26,22 +37,22 @@ function CheckBalance() {
 
   return (
     <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-         <Image
-          src={IMG}
-          fluid
-          style={{ height: "100%", width: "100%", objectFit: "cover" }}
-        />
-  <Card
-          style={{
-            width: "35%", // Set the card width to fit its content
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-          className="text-white"
-        >
+      <Image
+        src={IMG}
+        fluid
+        style={{ height: '100%', width: '100%', objectFit: 'cover' }}
+      />
+      <Card
+        style={{
+          width: '35%',
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        }}
+        className="text-white"
+      >
         <Card.Body>
           <Card.Title>Check Balance</Card.Title>
           <Form.Group>
