@@ -107,9 +107,9 @@ const handleLogin = () => {
   }, []);
 
 
-  useEffect(() => {
-    console.log(loggedInUser); // Log the loggedInUser
-  }, [loggedInUser]);
+  // useEffect(() => {
+  //   console.log(loggedInUser); // Log the loggedInUser
+  // }, [loggedInUser]);
   
   // useEffect(() => {
   //   const unsubscribe = onAuthStateChanged(auth, (user) => {
