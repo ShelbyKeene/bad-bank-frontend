@@ -39,7 +39,7 @@ function Withdraw({ loggedInUser }) {
       }
 
       const response = await fetch(
-        `http://localhost:3000/account/update/${email}/-${amount}`,
+        `https://backend-bank-850738bd4b85.herokuapp.com/account/update/${email}/-${amount}`,
         {
           method: "GET",
           headers: {

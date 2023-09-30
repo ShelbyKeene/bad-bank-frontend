@@ -25,7 +25,7 @@ function CheckBalance({ loggedInUser }) {
       }
 
       const response = await fetch(
-        `http://localhost:3000/account/findOne/${email}`,
+        `https://backend-bank-850738bd4b85.herokuapp.com/account/findOne/${email}`,
         {
           method: "GET",
           headers: {
