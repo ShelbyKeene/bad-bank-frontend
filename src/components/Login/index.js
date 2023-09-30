@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React from "react";
 import IMG from "../Photos/Lobby.jpeg";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
@@ -6,18 +6,17 @@ import Card from "react-bootstrap/Card";
 import { useAuth } from '../AuthContext' ;
 
 function Login({
-  navigate,
-  handleLogout,
+ 
   loggedInUser,
   handleLogin,
-  handleGoogleLogin,
+  
   password,
   setPassword,
   email,
   setEmail,
 }) {
   const { setToken } = useAuth(); // Get the setIdToken function from your context
-  const [showMessage, setShowMessage] = useState(false);
+
 
   const handleLoginClick = () => {
     handleLogin()
@@ -38,12 +37,7 @@ function Login({
   };
 
 
-  const handleGoogleLoginClick = () => {
-    if (!loggedInUser) {
-      // User is not logged in, show the message
-      setShowMessage(true);
-    } 
-  };
+
 
 
   return (
@@ -96,35 +90,9 @@ function Login({
             >
               Login
             </Button>
-            <Button
-              style={{ width: "100%" }}
-              variant="dark"
-              onClick={handleGoogleLoginClick}
-            >
-              Login with Google
-            </Button>
+         
             
-            {showMessage && (
-              <div>
-                <p>Please ensure you have created an account before logging in with Google.</p>
-                <Button
-                  style={{ width: "100%" }}
-                  variant="dark"
-                  onClick={handleGoogleLogin}
-                >
-                  Proceed with Google Login
-                </Button>
-                <Button
-                  style={{ width: "100%" }}
-                  variant="dark"
-                  onClick={() => {
-                    navigate("/create-account");
-                  }}
-                >
-                  Create Account
-                </Button>
-              </div>
-            )}
+           
           </div>
         </Card.Body>
       </Card>
