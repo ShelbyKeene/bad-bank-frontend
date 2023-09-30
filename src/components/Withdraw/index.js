@@ -4,8 +4,13 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import IMG from "../Photos/Streets.jpeg";
+import { useAuth } from '../AuthContext' ;
+
+
 
 function Withdraw() {
+
+  const { accessToken, setToken } = useAuth();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showAlertError, setShowAlertError] = useState(false);
   const [email, setEmail] = useState("");
@@ -26,9 +31,13 @@ function Withdraw() {
     try {
   
       const response = await fetch(
-        `https://backend-bank-850738bd4b85.herokuapp.com/account/update/${email}/-${amount}`,
+        `http://localhost:3000/account/update/${email}/-${amount}`,
         {
-          method: "GET",
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
         }
       );
       if (amount === 0 || isNaN(amount)) {

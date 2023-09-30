@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
+  // onAuthStateChanged,
   // createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -44,17 +45,23 @@ function App() {
   const navigate = useNavigate();
 
   //Mongo DB login
-  const handleLogin = () => {
+// In your component, modify the handleLogin function
+const handleLogin = () => {
+  return new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         setLoggedInUser(user);
         navigate("/");
+        resolve(userCredential); // Resolve the promise with userCredential
       })
       .catch((error) => {
         console.log(error);
+        reject(error); // Reject the promise with the error
       });
-  };
+  });
+};
+
 
   // Google login
   const handleGoogleLogin = () => {
@@ -88,6 +95,14 @@ function App() {
 
     return () => unsubscribe();
   }, []);
+
+
+  useEffect(() => {
+    console.log(loggedInUser); // Log the loggedInUser
+  }, [loggedInUser]);
+  
+
+  
 
   return (
     <div className="main-app-div">
