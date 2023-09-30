@@ -4,10 +4,10 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import IMG from "../Photos/Streets.jpeg";
-import { useAuth } from '../AuthContext' ;
+import { useAuth } from "../AuthContext";
 
-function Deposit() {
-  const { accessToken} = useAuth();
+function Deposit({ loggedInUser }) {
+  const { accessToken } = useAuth();
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showAlertError, setShowAlertError] = useState(false);
@@ -28,14 +28,24 @@ function Deposit() {
         setShowAlertError(true);
         return;
       }
+      if (!loggedInUser) {
+        alert("Error: You are not logged in.");
+        return;
+      }
+
+      // Convert both emails to lowercase and then compare
+      if (loggedInUser.email.toLowerCase() !== email.toLowerCase()) {
+        alert("Error: You are not authorized to view this balance.");
+        return;
+      }
 
       const response = await fetch(
         `http://localhost:3000/account/update/${email}/${amount}`,
         {
-          method: 'GET',
+          method: "GET",
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
@@ -105,7 +115,12 @@ function Deposit() {
               style={{ width: "100%" }} // Make the input width 100%
             />
             <br />
-            <Button  variant="dark" type="submit" disabled={isSubmitDisabled} style={{ width: "100%" }}>
+            <Button
+              variant="dark"
+              type="submit"
+              disabled={isSubmitDisabled}
+              style={{ width: "100%" }}
+            >
               Deposit
             </Button>
           </Card.Body>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
 
   // Load the access token from local storage when the component mounts
   useEffect(() => {
-    const storedToken = localStorage.getItem('accessToken');
+    const storedToken = localStorage.getItem("accessToken");
     if (storedToken) {
       setAccessToken(storedToken);
     }
@@ -16,13 +16,13 @@ export const AuthProvider = ({ children }) => {
   const setToken = (token) => {
     // Set the access token in both state and local storage
     setAccessToken(token);
-    localStorage.setItem('accessToken', token);
+    localStorage.setItem("accessToken", token);
   };
 
   const removeToken = () => {
     // Remove the access token from both state and local storage
     setAccessToken(null);
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem("accessToken");
   };
 
   const logout = () => {
@@ -31,7 +31,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ accessToken, setToken, removeToken,logout }}>
+    <AuthContext.Provider
+      value={{ accessToken, setToken, removeToken, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
